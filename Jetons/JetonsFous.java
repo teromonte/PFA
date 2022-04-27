@@ -1,18 +1,16 @@
-package jetons;
-
 public class JetonsFous{
 	public static void main (String args[]){
 		
-		//caractï¿½ristiques du damier
+		//caractéristiques du damier
 		int nbCasesHaut;
 		int nbCasesLarg;
 		int nbJetons;
 		boolean rigged=false;
 		
-		//Demande des paramï¿½tres ï¿½ l'utilisateur
+		//Demande des paramètres à l'utilisateur
 		char answer;
 		do{
-		System.out.println("Voulez-vous jouer une partie prï¿½dï¿½finie ?(y/n)");
+		System.out.println("Voulez-vous jouer une partie prédéfinie ?(y/n)");
 		answer = Clavier.saisirChar();
 		}while(answer != 'y' && answer != 'n');
 		if(answer == 'y'){
@@ -31,15 +29,15 @@ public class JetonsFous{
 			nbJetons = Clavier.saisirInt();
 		}while(nbJetons<=0 || nbCasesHaut * nbCasesLarg <= nbJetons);
 		
-		//Crï¿½ation du damier selon les paramï¿½tres donnï¿½s
+		//Création du damier selon les paramètres donnés
 		Damier damier = new Damier(nbCasesHaut, nbCasesLarg, nbJetons, rigged);
 		//Initialisation de la direction des jetons
 		damier.firstDirection();
-		//affichage de l'ï¿½tat de dï¿½part puis attente de 2s avant le premier dï¿½placement
+		//affichage de l'état de départ puis attente de 2s avant le premier déplacement
 		damier.render();
 		damier.window.wait(2000);
 		do{
-			//Vï¿½rification de la condition de fin de partie
+			//Vérification de la condition de fin de partie
 			if(damier.last()){
 				//affichage du damier
 				damier.render();
@@ -48,7 +46,7 @@ public class JetonsFous{
 				damier.window.wait(3000);
 				damier.window.exit();
 			}else{
-				//ï¿½volution puis affichage du damier
+				//évolution puis affichage du damier
 				damier.evolve();
 				damier.render();
 			}
