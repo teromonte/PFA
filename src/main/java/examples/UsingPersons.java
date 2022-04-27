@@ -77,29 +77,35 @@ public class UsingPersons {
                 return p.getGender() == Person.Sex.MALE && age >= 18 && age <= 25;
             }
         });
+
         printPersons(roster, (Person p) -> {
             int age = p.getAge();
             return p.getGender() == Person.Sex.MALE && age >= 18 && age <= 25;
         });
+
         printPersonsWithPredicate(roster, p -> {
             int age = p.getAge();
             return p.getGender() == Person.Sex.MALE && age >= 18 && age <= 25;
         });
+
         processPersons(roster, p -> {
             int age = p.getAge();
             return p.getGender() == Person.Sex.MALE && age >= 18 && age <= 25;
-        }, p -> p.printPerson());
+        }, Person::printPerson);
+
         processPersonsWithFunction(roster, p -> {
             int age = p.getAge();
             return p.getGender() == Person.Sex.MALE && age >= 18 && age <= 25;
-        }, p -> p.getEmailAddress(), email -> System.out.println(email));
+        }, Person::getEmailAddress, System.out::println);
+
         processElements(roster, p -> {
             int age = p.getAge();
             return p.getGender() == Person.Sex.MALE && age >= 18 && age <= 25;
-        }, p -> p.getEmailAddress(), email -> System.out.println(email));
+        }, Person::getEmailAddress, System.out::println);
+
         roster.stream().filter(p -> {
             int age = p.getAge();
             return p.getGender() == Person.Sex.MALE && age >= 18 && age <= 25;
-        }).map(p -> p.getEmailAddress()).forEach(email -> System.out.println(email));
+        }).map(Person::getEmailAddress).forEach(System.out::println);
     }
 }

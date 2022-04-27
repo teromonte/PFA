@@ -5,6 +5,7 @@ import java.time.Period;
 
 public class Person {
     public enum Sex {MALE, FEMALE}
+
     String name;
     LocalDate birthday;
     Sex gender;

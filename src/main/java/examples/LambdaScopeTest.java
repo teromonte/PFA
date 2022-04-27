@@ -4,8 +4,10 @@ import java.util.function.Consumer;
 
 public class LambdaScopeTest {
     public int x = 0;
+
     class FirstLevel {
         public int x = 1;
+
         void methodInFirstLevel(int x) {
             //  The following statement causes the compiler to generate the
             //  error "local variables referenced from a lambda expression must

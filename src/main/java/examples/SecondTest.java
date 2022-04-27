@@ -10,7 +10,7 @@ public class SecondTest {
         JButton greeterButton = new JButton("Click me !");
         greeterButton.addActionListener(event -> JOptionPane.showMessageDialog(null, "Hello !"));
         List<String> strings = Arrays.asList("hello", "world", "!");
-        Collections.sort(strings, (s1, s2) -> s1.compareTo(s2));
+        strings.sort(String::compareTo);
         System.out.println(strings);
     }
 }

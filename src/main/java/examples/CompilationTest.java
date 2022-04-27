@@ -8,7 +8,6 @@ public class CompilationTest {
             return 1;
         }
     }
-
     public static void main(String[] args) {
         final int factor = 2;
         IntFunction f = (int n) -> n * factor, f0 = n -> 2 * n * factor;
