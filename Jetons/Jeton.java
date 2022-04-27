@@ -1,22 +1,23 @@
-public class Jeton{
-	private int x, y, dirX, dirY;
+abstract class Jeton {
+
+	private int x, y;
 	private boolean alive;
-	
+	private CircularArray coord;
+
 	//Constructeur
-	Jeton(int x,int y){
+	Jeton(int x,int y, CircularArray coord){
 		this.x=x;
 		this.y=y;
 		this.alive=true;
-		this.dirX=0;
-		this.dirY=0;
+		this.coord = coord;
 	}
 	
-	//Détruis le jeton
+	//Dï¿½truis le jeton
 	public void die(){
 		this.alive=false;
 	}
 	
-	//Vrai si je jeton est vivant (actif, pas encore détruit)
+	//Vrai si je jeton est vivant (actif, pas encore dï¿½truit)
 	public boolean isAlive(){
 		return alive;
 	}
@@ -27,12 +28,12 @@ public class Jeton{
 		this.dirY=dirY;
 	}
 	
-	//renvoie la coordonnée x du jeton
+	//renvoie la coordonnï¿½e x du jeton
 	public int getX(){
 		return this.x;
 	}
 	
-	//renvoie la coordonnée y du jeton
+	//renvoie la coordonnï¿½e y du jeton
 	public int getY(){
 		return this.y;
 	}
@@ -47,23 +48,7 @@ public class Jeton{
 		return this.dirY;
 	}
 	
-	//renvoie la position en x du jeton après le prochain mouvement
-	public int getNextX(){
-		return this.x+this.dirX;
-	}
-	
-	//renvoie la position en y du jeton après le prochain mouvement
-	public int getNextY(){
-		return this.y+this.dirY;
-	}
-	
-	//déplace le jeton d'une case selon sa direction
-	public void move(){
-		this.x+=this.dirX;
-		this.y+=this.dirY;
-	}
-	
-	//Vérifie si les deux jetons sont vivants et si leur coordonnées (x,y) sont les même
+	//Vï¿½rifie si les deux jetons sont vivants et si leur coordonnï¿½es (x,y) sont les mï¿½me
 	public boolean isEqual(Jeton j){
 		return this.x==j.x && this.y==j.y && this.isAlive() && j.isAlive();
 	}
