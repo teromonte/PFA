@@ -1,7 +1,7 @@
 public class Robot extends Jeton {
     private int x, y;
 
-    Robot(int x, int y, CircularArray coord;) {
+    Robot(int x, int y, CircularArray coord) {
         super(x, y, coord);
         //TODO Auto-generated constructor stub
     }
