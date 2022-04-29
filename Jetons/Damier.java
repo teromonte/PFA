@@ -1,4 +1,6 @@
-import java.util.Random; 
+package jetons;
+
+import java.util.Random;
 
 public class Damier{
 	//damier
@@ -11,13 +13,13 @@ public class Damier{
 	
 	private Random rand=new Random(42);
 	
-	//Fenêtre graphique
+	//Fenï¿½tre graphique
 	private final String GAME_NAME = "Jetons Fous";
 	private final double FPS = 10.0;
-	//dimensions de la fenêtre
+	//dimensions de la fenï¿½tre
 	private final int SCREEN_HEIGHT = 800;
 	private final int SCREEN_WIDTH = 800;
-	//dimensions de la zone d'affichage dans la fenêtre
+	//dimensions de la zone d'affichage dans la fenï¿½tre
 	private final int WINDOW_HEIGHT = 700;
 	private final int WINDOW_WIDTH = 700;
 	
@@ -26,7 +28,7 @@ public class Damier{
 	private int tileHeight;
 	private int tileWidth;
 	
-	//Fonction pour générer des nombres aléatoires ou non, en fonction de rigged
+	//Fonction pour gï¿½nï¿½rer des nombres alï¿½atoires ou non, en fonction de rigged
 	private double rand(){
 		if(rigged){
 			return rand.nextDouble();
@@ -42,7 +44,7 @@ public class Damier{
 		this.nbJetons = nbJetons;
 		this.tileHeight = (WINDOW_HEIGHT-1)/nbCasesHaut;
 		this.tileWidth = (WINDOW_WIDTH-1)/nbCasesLarg;
-		//Le -1 permet d'afficher la délimitation du damier à droite et en bas, sinon le tracé sort de la zone d'affichage
+		//Le -1 permet d'afficher la dï¿½limitation du damier ï¿½ droite et en bas, sinon le tracï¿½ sort de la zone d'affichage
 		tab = new Jeton[nbJetons];
 		//On initialise le contenu du tableau avant de le remplir avec des jetons valides
 		for(int i = 0; i <= tab.length-1; i++){
@@ -64,9 +66,9 @@ public class Damier{
 		}
 	}
 	
-	//affiche le damier dans la console et dans une fenêtre graphique
+	//affiche le damier dans la console et dans une fenï¿½tre graphique
 	public void render(){
-		/*affichage dans la console via tostring(), n'est plus nécéssaire puisqu'on se sert de l'API graphique*/
+		/*affichage dans la console via tostring(), n'est plus nï¿½cï¿½ssaire puisqu'on se sert de l'API graphique*/
 		System.out.print(this.tostring()); 
 		window.setClearColor(255,255,255);//blanc
 		window.clear();
@@ -80,11 +82,11 @@ public class Damier{
 		}
 		
 		//Dessin des jetons
-		/*à utiliser pour dessiner les cercles
+		/*ï¿½ utiliser pour dessiner les cercles
 		*/
 		int r = Math.min(tileWidth,tileHeight)/2;
 		
-		/*à utiliser pour dessiner les formes incongrues
+		/*ï¿½ utiliser pour dessiner les formes incongrues
 		
 		int r = Math.min(tileWidth,tileHeight)/5;
 		*/
@@ -108,13 +110,13 @@ public class Damier{
 				*/
 			}
 		}
-		//affichage à l'écran des objets définis précédement
+		//affichage ï¿½ l'ï¿½cran des objets dï¿½finis prï¿½cï¿½dement
 		window.flush();
-		//attente d'atteindre environ le nombre d'images par secondes indiqué par FPS
+		//attente d'atteindre environ le nombre d'images par secondes indiquï¿½ par FPS
 		window.wait((int)(1000/FPS));
 	}
 	
-	//Donne une direction aléatoire à tous les jetons du damier
+	//Donne une direction alï¿½atoire ï¿½ tous les jetons du damier
 	public void firstDirection(){
 		for(int i = 0; i <= this.tab.length-1; i++){
 			do{
@@ -123,12 +125,12 @@ public class Damier{
 		}
 	}
 	
-	//Vrai si le jeton en paramètre va sortir du damier au prochain déplacement
+	//Vrai si le jeton en paramï¿½tre va sortir du damier au prochain dï¿½placement
 	public boolean willMoveOut(Jeton j){
 		return j.getNextX() < 0 || j.getNextX() > nbCasesLarg-1 || j.getNextY() < 0 || j.getNextY() > nbCasesHaut-1;
 	}
 	
-	//Vrai si les jetons en paramètre vont entrer en collision au prochain déplacement
+	//Vrai si les jetons en paramï¿½tre vont entrer en collision au prochain dï¿½placement
 	public boolean willCollide(Jeton j, Jeton k){
 		if(k.isAlive() && j.isAlive()){
 			boolean case1 = k.getNextX() == j.getX() && j.getNextX() == k.getX() && k.getNextY() == j.getY() && j.getNextY() == k.getY();
@@ -139,7 +141,7 @@ public class Damier{
 		return false;
 	}
 	
-	//Vrai si le jeton en paramètre a les même coordonnées qu'un jeton du damier
+	//Vrai si le jeton en paramï¿½tre a les mï¿½me coordonnï¿½es qu'un jeton du damier
 	public boolean isInside(Jeton j){
 		for(int i = 0; i <= this.tab.length-1; i++){
 			if(this.tab[i].isEqual(j)){
@@ -149,7 +151,7 @@ public class Damier{
 		return false;
 	}
 	
-	//Détruit les jetons du damier nécessaires afin qu'il n'y ait pas de collisions au prochain déplacement
+	//Dï¿½truit les jetons du damier nï¿½cessaires afin qu'il n'y ait pas de collisions au prochain dï¿½placement
 	public void collide(){
 		for(int i = 0; i <= this.tab.length-1; i++){
 			for(int j = 0; j <= this.tab.length-1; j++){
@@ -162,7 +164,7 @@ public class Damier{
 		}
 	}
 	
-	//Assigne une nouvelle direction valide aux jetons du damier qui devraient sortir du damier au prochain déplacement
+	//Assigne une nouvelle direction valide aux jetons du damier qui devraient sortir du damier au prochain dï¿½placement
 	public void out(){
 		for(int i = 0; i <= this.tab.length-1; i++){
 			if(this.willMoveOut(this.tab[i]) && this.tab[i].isAlive()){
@@ -187,7 +189,7 @@ public class Damier{
 		return false;
 	}
 	
-	//Déplace les jetons du damier
+	//Dï¿½place les jetons du damier
 	public void move(){
 		for(int i = 0; i<= this.tab.length-1; i++){
 			if(this.tab[i].isAlive()){
@@ -196,7 +198,7 @@ public class Damier{
 		}
 	}
 	
-	//Renvoie le damier sous forme d'une chaine de caractères
+	//Renvoie le damier sous forme d'une chaine de caractï¿½res
 	public String tostring(){
 		String str= "";
 		for(int y = -1; y <= nbCasesHaut; y++){
@@ -219,7 +221,7 @@ public class Damier{
 		return str;
 	}
 	
-	//Change la direction des jetons pour ne pas qu'il sortent du damier, puis suprimme les jetons requis pour éviter les collisions, puis déplace les jetons
+	//Change la direction des jetons pour ne pas qu'il sortent du damier, puis suprimme les jetons requis pour ï¿½viter les collisions, puis dï¿½place les jetons
 	public void evolve(){
 		this.out();
 		this.collide();

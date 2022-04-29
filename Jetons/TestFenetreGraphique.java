@@ -1,4 +1,4 @@
-/* Application exemple d'utilisation des methodes   */
+package jetons;/* Application exemple d'utilisation des methodes   */
 /* contenues dans EcranGraphique.class              */
 
 public class TestFenetreGraphique {
