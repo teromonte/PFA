@@ -22,7 +22,7 @@ public class CircularArray {
         }
         tail.setNext(n);
         tail = n;
-        return true
+        return true;
     }
 
     public Node getHead() {
@@ -59,6 +59,6 @@ public class CircularArray {
             currenti = currenti.getNext().getNext();
             currentj = currentj.getNext();
         }
-        return true
+        return true;
     }
 }

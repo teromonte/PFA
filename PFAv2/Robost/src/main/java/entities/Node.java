@@ -1,11 +1,11 @@
 package entities;
 //A node, which contains a pair of coordinates, and points to the next node of the linked list
 public class Node {
-    private Pair P;
+    private final Pair p;
     private Node next;
 
     public Node(Pair p) {
-        P = p;
+        this.p = p;
     }
 
     public Node getNext() {
@@ -13,7 +13,7 @@ public class Node {
     }
 
     public Pair getPair() {
-        return P;
+        return p;
     }
 
     public void setNext(Node n) {
