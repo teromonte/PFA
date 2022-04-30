@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="GraphicLibs">
+    <CLASSES>
+      <root url="file://$PROJECT_DIR$/src/main/java/GraphicLibs" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

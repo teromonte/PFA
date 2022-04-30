@@ -39,6 +39,6 @@ public class Intruder extends Piece {
     }
 
     public boolean circuitIsValid(int length, int width) {
-        return null != this.getCircularArray().getHead();
+        return null != this.getCircularArray().getHead() && this.getCircularArray().getHead().getPair().isInBonds(length, width);
     }
 }

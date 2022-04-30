@@ -18,9 +18,27 @@ public class Game {
     public int[][] board;
     public List<Piece> pieces = new ArrayList<>();
 
+    //Parameters for the GI window
+    private final String GAME_NAME = "Robots";
+    //dimensions of the window
+    private final int SCREEN_HEIGHT = 500;
+    private final int SCREEN_WIDTH = 800;
+    //dimensions of the render area
+    private final int WINDOW_HEIGHT = 400;
+    private final int WINDOW_WIDTH = 700;
+
+    private final int waitTime = 3000;
+    public FenetreGraphique window = new FenetreGraphique(0,0,SCREEN_WIDTH,SCREEN_HEIGHT,WINDOW_WIDTH,WINDOW_HEIGHT,GAME_NAME);
+
+    private final int tileHeight;
+    private final int tileWidth;
+
+
     public Game(int length, int width) {
         this.length = length;
         this.width = width;
+        this.tileHeight = (WINDOW_HEIGHT-1)/width;
+        this.tileWidth = (WINDOW_WIDTH-1)/length;
         board = new int[length][width];
         initialize();
     }
@@ -37,9 +55,9 @@ public class Game {
     public void addPiece(Piece p){
         if(p instanceof Robot){
             pieces.add(0, p);
-            return;
+        }else{
+            pieces.add(p);
         }
-        pieces.add(p);
     }
 
     //Places the given ID of a piece on the board, at the given coordinates
@@ -69,6 +87,15 @@ public class Game {
             }
         }
         return true;
+    }
+    public void playTurn(){
+        for(Piece p : pieces){
+            p.setMoved(false);
+        }
+        boolean movedSmth = true;
+        while(movedSmth){
+            movedSmth =  movePieces();
+        }
     }
 
     //This function assumes the list of pieces contains first the robots, and then the intruders
@@ -200,7 +227,7 @@ public class Game {
             if(!robots && p instanceof Robot){
                 return false;
             }
-            if(p instanceof Intruder i){
+            if(p instanceof Intruder){
                 robots = false;
             }
             //We check the array of coordinates is valid for each piece
@@ -234,5 +261,69 @@ public class Game {
             }
         }
         return true;
+    }
+
+    public void prepareBoard(){
+        for(int index = 0; index < pieces.size(); index++){
+            Piece p = pieces.get(index);
+            if(p.getCoords().isInBonds(length, width)){
+                set(p.getCoords().getX(), p.getCoords().getY(), index);
+            }
+        }
+    }
+
+    //Render the state of the game
+    public void render(){
+        //Alternate graphique printing through terminal
+        System.out.print(tostring());
+        window.setClearColor(255,255,255);//White
+        window.clear();
+        window.setColor(0,0,0);//noir
+        //Rendering board
+        for(int i = 0; i <= length; i++){
+            window.drawLine(i*tileWidth, 0, i*tileWidth, WINDOW_HEIGHT);
+        }
+        for(int i = 0; i <= width; i++){
+            window.drawLine(0, i*tileHeight, WINDOW_WIDTH, i*tileHeight);
+        }
+        //Drawing the robots and intruders
+        int r = Math.min(tileWidth,tileHeight)/2;
+        for(Piece p : pieces){
+            if(p instanceof Intruder i && !i.gotCaught() && i.isOnBoard() && !i.hasEscaped()){
+                //Drawing a black circle for intruders
+                window.setColor(0, 0, 0);
+                window.fillCircle((p.getCoords().getX() * tileWidth) + tileWidth/2, (p.getCoords().getY() * tileHeight) + tileHeight/2, r);
+            }else{
+                //Drawing a red circle for robots
+                window.setColor(255, 0, 0);
+                window.fillCircle((p.getCoords().getX() * tileWidth) + tileWidth/2, (p.getCoords().getY() * tileHeight) + tileHeight/2, r);
+            }
+        }
+        //Drawing of the newly created shapes
+        window.flush();
+        //Wait until it's time for the next frame
+        FenetreGraphique.wait(waitTime);
+    }
+
+    //Prints the game state to terminal
+    public String tostring(){
+        StringBuilder str= new StringBuilder();
+        for(int y = -1; y <= width; y++){
+            for(int x = -1; x <= length; x++){
+                if(x == -1 || y == -1 || x == length || y == width){
+                    str.append(" *");
+                    if(x == length){
+                        str.append("\n");
+                    }
+                }else{
+                    if(get(x, y) != -1){
+                        str.append(" ").append(get(x, y));
+                    }else{
+                        str.append("  ");
+                    }
+                }
+            }
+        }
+        return str.toString();
     }
 }

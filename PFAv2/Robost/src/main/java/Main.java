@@ -7,8 +7,8 @@ import pieces.Robot;
 public class Main {
     public static void main(String[] args) {
         //Board characteristics
-        int length = 50;
-        int width = 40;
+        int length = 25;
+        int width = 10;
 
         //Board creation
         Game game = new Game(length, width);
@@ -34,16 +34,17 @@ public class Main {
         game.addPiece(new Robot(coords2));
         //Intruder 1
         CircularArray coords3 = new CircularArray();
-        coords3.add(20, 15);
-        coords3.add(-20, 15);
+        coords3.add(7, 9);
+        coords3.add(3, 8);
         coords3.add(2, 1);
         coords3.add(3, 4);
         game.addPiece(new Intruder(coords3));
 
         //First print of the board
-        //game.render();
+        game.prepareBoard();
+        game.render();
         //2s wait
-        //game.window.wait(2000);
+        FenetreGraphique.wait(2000);
         if(!game.differentSpots() || !game.validPieces()){
             System.out.println("Either pieces have invalid lists of coordinates, or 2 pieces start on the same spot");
             return;
@@ -51,10 +52,11 @@ public class Main {
         int maxTurns = 10;
         do{
             //We move the pieces
-            game.movePieces();
-            //game.render();
+            game.playTurn();
+            game.render();
             maxTurns--;
-        }while(maxTurns > 0);//game.window.notClosed());
-        //game.window.exit();
+            System.out.println("Turn left : " + maxTurns);
+        }while(maxTurns > 0 && game.window.notClosed());
+        FenetreGraphique.exit();
     }
 }
