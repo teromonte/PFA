@@ -1,3 +1,5 @@
+import entities.CircularArray;
+import entities.Node;
 import entities.Pair;
 import pieces.Intruder;
 import pieces.Piece;
@@ -22,7 +24,6 @@ public class Game {
         board = new int[length][width];
         initialize();
     }
-
     public void initialize() {
         //We set every spot of the board as being empty
         for (int i = 0; i < length; i++) {
@@ -30,6 +31,15 @@ public class Game {
                 board[i][j] = -1;
             }
         }
+    }
+
+    //If the piece to be added is a robot, we add it at index 0, so Robots are always first
+    public void addPiece(Piece p){
+        if(p instanceof Robot){
+            pieces.add(0, p);
+            return;
+        }
+        pieces.add(p);
     }
 
     //Places the given ID of a piece on the board, at the given coordinates
@@ -175,4 +185,54 @@ public class Game {
         return movedSmth;
     }
 
+    public boolean validPieces(){
+        //We must have at least two robots, so at least two elements
+        if(null == pieces || pieces.size() < 2){
+            return false;
+        }
+        //We check those two (at minima) elements are robots
+        if(!(pieces.get(0) instanceof Robot || !(pieces.get(1) instanceof Robot))){
+            return false;
+        }
+        //The move function works better if we move the robots first, and then the intruders. So we make sure the list is sorted
+        boolean robots = true;
+        for (Piece p: pieces) {
+            if(!robots && p instanceof Robot){
+                return false;
+            }
+            if(p instanceof Intruder i){
+                robots = false;
+            }
+            //We check the array of coordinates is valid for each piece
+            if(!p.circuitIsValid(length, width)){
+                return false;
+            }
+        }
+        return true;
+    }
+
+    //Duplicate of the function circuitIsValid of the Robot class, to check if a given CircularArray will be accepted or not
+    public boolean circuitForRobot(int length, int width, CircularArray ca) {
+        if (null == ca || null == ca.getHead() || null == ca.getHead().getNext() || ca.getHead().getNext() == ca.getHead()){
+            return false;
+        }
+        Node currenti = ca.getHead().getNext();
+        Node currentj = ca.getHead();
+        if(!currentj.getPair().isNextTo(currenti.getPair()) || !currentj.getPair().isInBonds(length, width) || !currenti.getPair().isInBonds(length, width)){
+            return false;
+        }
+        //A boolean so that we only move currentj half the time. This way currenti will go through all nodes before catching up
+        boolean half = true;
+        while (currenti != currentj){
+            if(null == currenti.getNext() || !currenti.getPair().isNextTo(currenti.getNext().getPair()) || !currenti.getNext().getPair().isInBonds(length, width)){
+                return false;
+            }
+            currenti = currenti.getNext();
+            half = !half;
+            if(half){
+                currentj = currentj.getNext();
+            }
+        }
+        return true;
+    }
 }

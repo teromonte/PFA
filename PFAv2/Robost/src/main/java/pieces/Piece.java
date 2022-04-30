@@ -5,16 +5,16 @@ import entities.Pair;
 
 abstract public class Piece {
     private int index;
-    private int id;
     private boolean moved;
     private final CircularArray coords;
 
-    public Piece(int id, CircularArray ca) {
-        id = id;
+    public Piece(CircularArray ca) {
         coords = ca;
         index = 0;
         moved = false;
     }
+
+    public abstract boolean circuitIsValid(int length, int width);
 
     public int getIndex() {
         return index;
@@ -27,6 +27,10 @@ abstract public class Piece {
 
     public Pair getCoords() {
         return coords.iterate(index).getPair();
+    }
+
+    public CircularArray getCircularArray(){
+        return coords;
     }
 
     public Pair move() {

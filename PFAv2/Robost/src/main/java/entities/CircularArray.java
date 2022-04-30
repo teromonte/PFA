@@ -25,6 +25,20 @@ public class CircularArray {
         return true;
     }
 
+    public boolean add(int x, int y){
+        if(null == head){
+            head = new Node(new Pair(x, y));
+            tail = head;
+            return true;
+        }
+        if(tail.getNext() != null){
+            return false;
+        }
+        tail.setNext(new Node(new Pair(x, y)));
+        tail = tail.getNext();
+        return true;
+    }
+
     public Node getHead() {
         return head;
     }

@@ -7,8 +7,8 @@ public class Intruder extends Piece {
     private boolean onBoard;
     private boolean escaped;
 
-    public Intruder(int id, CircularArray ca) {
-        super(id, ca);
+    public Intruder(CircularArray ca) {
+        super(ca);
         caught = false;
         onBoard = true;
         escaped = false;
@@ -36,5 +36,9 @@ public class Intruder extends Piece {
 
     public void setEscaped(boolean b) {
         escaped = b;
+    }
+
+    public boolean circuitIsValid(int length, int width) {
+        return null != this.getCircularArray().getHead();
     }
 }
