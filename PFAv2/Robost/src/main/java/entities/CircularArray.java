@@ -17,19 +17,19 @@ public class CircularArray {
             tail = n;
             return true;
         }
-        if(tail.GetNext() != null){
+        if(tail.getNext() != null){
             return false;
         }
-        tail.SetNext(n);
+        tail.setNext(n);
         tail = n;
         return true
     }
 
-    public Node GetHead() {
+    public Node getHead() {
         return head;
     }
 
-    public Node GetTail() {
+    public Node getTail() {
         return tail;
     }
 
@@ -37,7 +37,7 @@ public class CircularArray {
     public Node iterate(int i) {
         Node current = head;
         while (i > 0) {
-            current = current.GetNext();
+            current = current.getNext();
             i--;
         }
         return current;
@@ -47,20 +47,18 @@ public class CircularArray {
     // contains 1 element that loops back to itself, reaches a next element which is null
     //Returns true if currenti does a full loop and catches up with currentj
     public boolean isCircular() {
-        if (null == head || null == head.GetNext() || head.GetNext() == head){
+        if (null == head || null == head.getNext() || head.getNext() == head){
             return false;
         }
-        Node currenti = head.GetNext();
+        Node currenti = head.getNext();
         Node currentj = head;
         while (currenti != currentj){
-            if(null == currenti.GetNext() && null == currenti.GetNext().GetNext()){
+            if(null == currenti.getNext() && null == currenti.getNext().getNext()){
                 return false;
             }
-            currenti = currenti.GetNext().GetNext();
-            currentj = currentj.GetNext();
+            currenti = currenti.getNext().getNext();
+            currentj = currentj.getNext();
         }
         return true
     }
-
-
 }

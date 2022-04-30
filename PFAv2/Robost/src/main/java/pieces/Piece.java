@@ -4,55 +4,39 @@ import entities.CircularArray;
 import entities.Pair;
 
 abstract public class Piece {
-    private int X, Y;
-    private int i;
-    private boolean Alive, HasMoved;
-    private CircularArray A;
+    private int index;
+    private int id;
+    private boolean moved;
+    private CircularArray coords;
 
-    public Piece(boolean alive, int x, int y, CircularArray a) {
-        Alive = alive;
-        HasMoved = false;
-        i = 0;
-        X = x;
-        Y = y;
-        A = a;
+    public Piece(int id, CircularArray ca) {
+        id = id;
+        coords = ca;
+        index = 0;
+        moved = false;
     }
 
-    public int GetIndex() {
-        return i;
+    public int getIndex() {
+        return index;
+    }
+    public void incerementIndex(){index++;}
+
+    public Pair nextCoords() {
+        return coords.iterate(index + 1).GetPair();
     }
 
-    public Pair TryToMove() {
-        return A.iterate(i + 1);
+    public Pair move() {
+        index++;
+        moved = true;
+        return coords.iterate(index).GetPair();
     }
 
-    public Pair Move() {
-        i++;
-        HasMoved = true;
-        return A.iterate(i);
+    public boolean hasMoved() {
+        return moved;
     }
 
-    public boolean HasMoved() {
-        return HasMoved;
+    public void setMoved(boolean b) {
+        moved = b;
     }
 
-    public void ResetHasMoved() {
-        HasMoved = false;
-    }
-
-    public void Die() {
-        Alive = false;
-    }
-
-    public boolean IsAlive() {
-        return Alive;
-    }
-
-    public int GetX() {
-        return X;
-    }
-
-    public int GetY() {
-        return Y;
-    }
 }

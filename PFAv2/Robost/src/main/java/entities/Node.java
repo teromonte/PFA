@@ -8,15 +8,15 @@ public class Node {
         P = p;
     }
 
-    public Node GetNext() {
+    public Node getNext() {
         return next;
     }
 
-    public Pair GetPair() {
+    public Pair getPair() {
         return P;
     }
 
-    public void SetNext(Node n) {
+    public void setNext(Node n) {
         next = n;
     }
 }

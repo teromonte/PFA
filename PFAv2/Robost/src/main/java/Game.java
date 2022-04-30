@@ -6,65 +6,40 @@ import pieces.Robot;
 
 public class Game {
     //The length of the board
-    private final int Length;
+    private final int length;
     //The width of the board
-    private final int Width;
+    private final int width;
     //The board with dimensons length * width. It contains -1 if the space is empty
     //Otherwise it returns the index of the piece in the list of pieces
-    public int[][] Board;
-    public List<Piece> Pieces = new List<>();
+    public int[][] board;
+    public List<Piece> pieces = new List<>();
 
     public Game(int length, int width) {
-        Length = length;
-        Width = width;
-        Board = new Piece[Length][Width];
-        Initialize();
+        length = length;
+        width = width;
+        board = new int[length][width];
+        initialize();
     }
 
-    public void Initialize() {
+    public void initialize() {
         //We set every spot of the board as beeing empty
-        for (int i = 0; i < Length; i++) {
-            for (int j = 0; j < Width; j++) {
-                Board[i][j] = -1;
+        for (int i = 0; i < length; i++) {
+            for (int j = 0; j < width; j++) {
+                board[i][j] = -1;
             }
         }
     }
 
-    public boolean SetPiece(int x, int y, int p) {
-        if (Board[x][y] == -1) {
-            Board[x][y] = p;
+    public boolean setPiece(int x, int y, int p) {
+        if (board[x][y] == -1) {
+            board[x][y] = p;
             return true;
         }
         return false;
     }
 
-    public int Get(int x, int y) {
-        return Board[x][y];
+    public int get(int x, int y) {
+        return board[x][y];
     }
-
-    public boolean IsPathValid(CircularArray a) {
-        boolean valid = true;
-        Node current = a.GetHead();
-        if (a.GetHead() == null) {
-            valid = false;
-        } else {
-            do {
-                int curX = current.GetPair().GetX();
-                int curY = current.GetPair().GetY();
-                int nextX = current.GetNext().GetPair().GetX();
-                int nextY = current.GetNext().GetPair().GetY();
-
-                //see if is out of board
-                if (nextX < 0 || nextX >= Length || nextY < 0 || nextY >= Width) return false;
-                //see if is adjacent or diagonal
-                if (!(Math.abs(curX - nextX) <= 1 && Math.abs(curY - nextY) <= 1) || !((curX + 1 == nextX) && (curY + 1 == nextY) || (curX + 1 == nextX) && (curY - 1 == nextY) || (curX - 1 == nextX) && (curY + 1 == nextY) || (curX - 1 == nextX) && (curY - 1 == nextY)))
-                    return false;
-
-                current = current.GetNext();
-            } while (current != a.GetHead());
-        }
-        return a.isCircular();
-    }
-
 
 }
