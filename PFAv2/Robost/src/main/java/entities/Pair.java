@@ -1,5 +1,5 @@
 package entities;
-
+//A pair of coordinates
 public class Pair {
     private int X, Y;
 

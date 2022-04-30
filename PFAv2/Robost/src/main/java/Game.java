@@ -5,9 +5,14 @@ import pieces.Piece;
 import pieces.Robot;
 
 public class Game {
+    //The length of the board
     private final int Length;
+    //The width of the board
     private final int Width;
-    public Piece[][] Board;
+    //The board with dimensons length * width. It contains -1 if the space is empty
+    //Otherwise it returns the index of the piece in the list of pieces
+    public int[][] Board;
+    public List<Piece> Pieces = new List<>();
 
     public Game(int length, int width) {
         Length = length;
@@ -17,26 +22,23 @@ public class Game {
     }
 
     public void Initialize() {
+        //We set every spot of the board as beeing empty
         for (int i = 0; i < Length; i++) {
             for (int j = 0; j < Width; j++) {
-                Board[i][j] = null;
+                Board[i][j] = -1;
             }
         }
     }
 
-    public boolean SetPiece(int x, int y, Piece p) {
-        Piece curr = Get(x, y);
-        if (curr == null) {
+    public boolean SetPiece(int x, int y, int p) {
+        if (Board[x][y] == -1) {
             Board[x][y] = p;
             return true;
-        } else if (curr instanceof Intruder && p instanceof Robot) {
-            p.Die();
-            return false;
         }
         return false;
     }
 
-    public Piece Get(int x, int y) {
+    public int Get(int x, int y) {
         return Board[x][y];
     }
 
