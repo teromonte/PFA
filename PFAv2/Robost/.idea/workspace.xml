@@ -4,12 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90ff3f61-2819-424a-963a-c5d3b66f2470" name="Changes" comment="Adding verification function that two pieces are not on the same spot">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/main/java/pieces/Intruder.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pieces/Intruder.java" afterDir="false" />
-    </list>
+    <list default="true" id="90ff3f61-2819-424a-963a-c5d3b66f2470" name="Changes" comment="Adding graphic interface" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -92,7 +87,14 @@
       <option name="project" value="LOCAL" />
       <updated>1651340578053</updated>
     </task>
-    <option name="localTasksCounter" value="4" />
+    <task id="LOCAL-00004" summary="Adding graphic interface">
+      <created>1651359702464</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1651359702464</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -109,6 +111,7 @@
   <component name="VcsManagerConfiguration">
     <MESSAGE value="first commit" />
     <MESSAGE value="Adding verification function that two pieces are not on the same spot" />
-    <option name="LAST_COMMIT_MESSAGE" value="Adding verification function that two pieces are not on the same spot" />
+    <MESSAGE value="Adding graphic interface" />
+    <option name="LAST_COMMIT_MESSAGE" value="Adding graphic interface" />
   </component>
 </project>
