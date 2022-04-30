@@ -42,7 +42,4 @@ abstract public class Piece {
     public void setMoved(boolean b) {
         moved = b;
     }
-
-    abstract public void setCaught(boolean c);
-    abstract public boolean gotCaught();
 }

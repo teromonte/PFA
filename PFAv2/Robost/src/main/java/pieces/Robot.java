@@ -10,16 +10,6 @@ public class Robot extends Piece {
         super(id, ca);
     }
 
-    @Override
-    public void setCaught(boolean c) {
-
-    }
-
-    @Override
-    public boolean gotCaught() {
-        return false;
-    }
-
     public boolean circuitForRobot(int length, int width, CircularArray ca) {
         if (null == ca.getHead() || null == ca.getHead().getNext() || ca.getHead().getNext() == ca.getHead()){
             return false;

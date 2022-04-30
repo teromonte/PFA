@@ -1,11 +1,18 @@
 package entities;
 //A pair of coordinates
 public class Pair {
-    private int x, y;
+    private final int x, y;
 
     public Pair(int x, int y) {
         this.x = x;
         this.y = y;
+    }
+
+    public boolean compare(Pair p) {
+        if(null == p){
+            return false;
+        }
+        return x == p.getX() && y == p.getY();
     }
 
     public int getX(){
