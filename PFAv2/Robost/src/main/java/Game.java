@@ -4,6 +4,8 @@ import pieces.Intruder;
 import pieces.Piece;
 import pieces.Robot;
 
+import java.util.List;
+
 public class Game {
     //The length of the board
     private final int length;
