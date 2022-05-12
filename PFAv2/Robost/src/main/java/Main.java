@@ -40,6 +40,11 @@ public class Main {
         coords3.add(3, 4);
         game.addPiece(new Intruder(coords3));
 
+        System.out.println("hist ");
+        game.history(length , width , coords2 , coords3);
+        System.out.println("fin hist ");
+
+
         //First print of the board
         game.prepareBoard();
         game.render();
