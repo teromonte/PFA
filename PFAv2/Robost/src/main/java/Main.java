@@ -13,7 +13,7 @@ public class Main {
         int length = 25;
         int width = 10;
         //Pour activer ou non l'affichage graphique
-        boolean GUI = false;
+        boolean GUI = true;
 
         //Board creation
         Game game = new Game(length, width, GUI);
@@ -42,17 +42,29 @@ public class Main {
         coords3.add(3, 8);
         coords3.add(2, 1);
         coords3.add(-1, 1);
-        coords3.add(10, 8);
+        coords3.add(-1, 8);
         coords3.add(4, 5);//We loop back here
         coords3.add(3, 4);
         //coords3.add(coords3.iterate(5));
         game.addPiece(new Intruder(coords3));
+
+        CircularArray coords4 = new CircularArray();
+        coords4.add(4, 9);
+        coords4.add(3, 8);
+        coords4.add(8, 6);
+        coords4.add(-1, 1);
+        coords4.add(4, 5);
+        coords4.add(3, 8);//We loop back here
+        coords4.add(3, 4);
+        coords4.add(coords4.iterate(5));
+        game.addPiece(new Intruder(coords4));
 
         ArrayList<CircularArray> deplRobots = new ArrayList<>();
         deplRobots.add(coords);
         deplRobots.add(coords2);
         ArrayList<CircularArray> deplIntrus = new ArrayList<>();
         deplIntrus.add(coords3);
+        deplIntrus.add(coords4);
 
         System.out.println("History :");
         history(length , width , deplRobots , deplIntrus, 10).forEach(System.out::println);

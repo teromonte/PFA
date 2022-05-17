@@ -207,12 +207,7 @@ public class Game {
                         movedSmth = true;
                         //Else it is an intruder that has already moved, so we won't be able to move this turn
                     } else {
-                        if (p.isOnBoard()) {
-                            set(coords.getX(), coords.getY(), -1);
-                        }
-                        set(nextCoords.getX(), nextCoords.getY(), index);
-                        p.setOnBoard(true);
-                        p.move();
+                        p.setMoved(true);
                         movedSmth = true;
                     }
                     //Else the space is occupied by something which hasn't moved yet, hence we wait
@@ -285,10 +280,12 @@ public class Game {
                 }
                 if(i.hasEscaped()){
                     res.append("(Intruder has escaped !) ");
-                    iterator.remove();
+                    //We can remove escaped intruders if we only want to see this message once when the intruder escapes
+                    //iterator.remove();
                 }else if(i.gotCaught()) {
                     res.append("(Intruder got caught !) ");
-                    iterator.remove();
+                    //Same with caught intruders
+                    //iterator.remove();
                 }else if(!i.isOnBoard()) {
                     res.append("(Disappeared temporarily) ");
                 }else{
