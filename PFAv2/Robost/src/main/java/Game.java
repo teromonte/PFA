@@ -6,7 +6,10 @@ import pieces.Piece;
 import pieces.Robot;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Game {
     //The length of the board
@@ -28,18 +31,21 @@ public class Game {
     private final int WINDOW_WIDTH = 700;
 
     private final int waitTime = 3000;
-    public FenetreGraphique window = new FenetreGraphique(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, GAME_NAME);
+    public FenetreGraphique window;
 
     private final int tileHeight;
     private final int tileWidth;
 
 
-    public Game(int length, int width) {
+    public Game(int length, int width, boolean GUI) {
         this.length = length;
         this.width = width;
         this.tileHeight = (WINDOW_HEIGHT - 1) / width;
         this.tileWidth = (WINDOW_WIDTH - 1) / length;
         board = new int[length][width];
+        if(GUI){
+            window = new FenetreGraphique(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, GAME_NAME);
+        }
         initialize();
     }
 
@@ -59,6 +65,8 @@ public class Game {
         } else {
             pieces.add(p);
         }
+        //The move function works better if we move the robots first, and then the intruders. So we make sure the list is sorted
+        Collections.sort(pieces);
     }
 
     //Places the given ID of a piece on the board, at the given coordinates
@@ -162,6 +170,7 @@ public class Game {
             if (null == nextCoords) {
                 p.setOnBoard(false);
                 p.setEscaped(true);
+                set(coords.getX(), coords.getY(), -1);
                 return true;
             }
             //If the next move goes outside the board, the intruder disappears
@@ -216,25 +225,13 @@ public class Game {
     public boolean validPieces() {
         //We must have at least two robots, so at least two elements
         if (null == pieces || pieces.size() < 2) {
+            System.out.println("There are not enough pieces");
             return false;
         }
         //We check those two (at minima) elements are robots
-        if (!(pieces.get(0) instanceof Robot || !(pieces.get(1) instanceof Robot))) {
+        if (!(pieces.get(0) instanceof Robot & pieces.get(1) instanceof Robot)) {
+            System.out.println("There are not enough robots (need at least 2)");
             return false;
-        }
-        //The move function works better if we move the robots first, and then the intruders. So we make sure the list is sorted
-        boolean robots = true;
-        for (Piece p : pieces) {
-            if (!robots && p instanceof Robot) {
-                return false;
-            }
-            if (p instanceof Intruder) {
-                robots = false;
-            }
-            //We check the array of coordinates is valid for each piece
-            if (!p.circuitIsValid(length, width)) {
-                return false;
-            }
         }
         return true;
     }
@@ -265,6 +262,7 @@ public class Game {
     }
 
     public void prepareBoard() {
+        //Collections.sort(pieces);
         for (int index = 0; index < pieces.size(); index++) {
             Piece p = pieces.get(index);
             if (p.getCoords().isInBonds(length, width)) {
@@ -273,76 +271,40 @@ public class Game {
         }
     }
 
-        public void history( int length , int width , CircularArray r, CircularArray intrus) {
 
-            for (int index = 0; index < pieces.size(); index++) {
-                Piece p = pieces.get(index);
-
-                if (p instanceof Intruder intruder) {
-
-                    for (int i = 0; i < pieces.size(); i++) {
-                        if ((r.getHead().getPair().getX() == +intrus.getHead().getPair().getX()) && (r.getHead().getPair().getY() == +intrus.getHead().getPair().getY()))
-                        {
-                            intruder.setCaught(true);
-                            System.out.println("catched ");
-
-                        }
-                        else if ((r.iterate(i).getNext().getPair().getX() == +intrus.iterate(i).getNext().getPair().getX()) && (r.iterate(i).getNext().getPair().getY() == +intrus.iterate(i).getNext().getPair().getY())) {
-                            System.out.println("escaped ");
-
-                        }
-                            else{
-                                System.out.println("cord X : " + intrus.iterate(i).getPair().getX() + "   cord Y : " + intrus.iterate(i).getPair().getY());
-                                System.out.println("cord X : " + intrus.iterate(i).getNext().getPair().getX() + "   cord Y : " + intrus.iterate(i).getNext().getPair().getY());
-
-
-                            }
-
-                    }
+    public String turnHistory() {
+        StringBuilder res = new StringBuilder();
+        res.append("[ Robots : { ");
+        boolean robots = true;
+        for (Iterator<Piece> iterator = pieces.iterator(); iterator.hasNext();) {
+            Piece p = iterator.next();
+            if(p instanceof Intruder i) {
+                if(robots){
+                    robots = false;
+                    res.append("} | Intruders : { ");
                 }
-            }
-
-
-                    /*if(!intruder.gotCaught() && !intruder.hasEscaped())
-                    {
-                        System.out.println("cord X : " +intrus.getHead().getPair().getX()+ " cord Y : "+intrus.getHead().getPair().getY());
-                        for (int i = 0; i < pieces.size(); i++) {
-                            System.out.println("cord X : " + intrus.iterate(i).getNext().getPair().getX() + "cord Y : " + intrus.iterate(i).getNext().getPair().getY());
-                        }
-                    }*/
-
-        }
-
-    /*public void history(int length, int width, List<Piece> r, List<Pair> intrus) {
-
-
-        for (int index = 0; index < pieces.size(); index++) {
-            Piece p = pieces.get(index);
-            if (p instanceof Robot robot) {
-                r.add(p);
-            }
-            if (p instanceof Intruder intruder) {
-                if (!intruder.gotCaught() && !intruder.hasEscaped())
-                {
-                    Pair coords = p.getCoords();
-                    intrus.add(coords);
-
-                    for(int i = 0 ; i <intrus.size() ; i++){
-                        System.out.println(intrus.get(i));
-                    }
-                } else if (intruder.gotCaught())
-                {
-                    System.out.println("catched ");
-
+                if(i.hasEscaped()){
+                    res.append("(Intruder has escaped !) ");
+                    iterator.remove();
+                }else if(i.gotCaught()) {
+                    res.append("(Intruder got caught !) ");
+                    iterator.remove();
+                }else if(!i.isOnBoard()) {
+                    res.append("(Disappeared temporarily) ");
+                }else{
+                    Pair coords = i.getCoords();
+                    res.append("(").append(coords.getX()).append(" . ").append(coords.getY()).append(") ");
                 }
-                else {
-                    System.out.println("Escaped");
-                }
+            }else{
+                Pair coords = p.getCoords();
+                res.append("(").append(coords.getX()).append(" . ").append(coords.getY()).append(") ");
             }
         }
+        res.append("} ]");
+        playTurn();
+        return res.toString();
+    }
 
-
-    }*/
 
     //Render the state of the game
     public void render() {
@@ -360,12 +322,14 @@ public class Game {
         }
         //Drawing the robots and intruders
         int r = Math.min(tileWidth, tileHeight) / 2;
+        int k = 0;
         for (Piece p : pieces) {
             if (p instanceof Intruder i && !i.gotCaught() && i.isOnBoard() && !i.hasEscaped()) {
                 //Drawing a black circle for intruders
                 window.setColor(0, 0, 0);
                 window.fillCircle((p.getCoords().getX() * tileWidth) + tileWidth / 2, (p.getCoords().getY() * tileHeight) + tileHeight / 2, r);
-            } else {
+            }
+            if (p instanceof Robot){
                 //Drawing a red circle for robots
                 window.setColor(255, 0, 0);
                 window.fillCircle((p.getCoords().getX() * tileWidth) + tileWidth / 2, (p.getCoords().getY() * tileHeight) + tileHeight / 2, r);

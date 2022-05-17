@@ -51,6 +51,9 @@ public class CircularArray {
     public Node iterate(int i) {
         Node current = head;
         while (i > 0) {
+            if(null == current.getNext()){
+                return null;
+            }
             current = current.getNext();
             i--;
         }
