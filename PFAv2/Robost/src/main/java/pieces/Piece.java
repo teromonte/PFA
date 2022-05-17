@@ -16,11 +16,6 @@ abstract public class Piece {
 
     public abstract boolean circuitIsValid(int length, int width);
 
-    public int getIndex() {
-        return index;
-    }
-    public void incrementIndex(){index++;}
-
     public Pair nextCoords() {
         return coords.iterate(index + 1).getPair();
     }
