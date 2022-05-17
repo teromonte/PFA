@@ -311,8 +311,6 @@ public class Game {
                         }
                     }*/
 
-
-
         }
 
     /*public void history(int length, int width, List<Piece> r, List<Pair> intrus) {
