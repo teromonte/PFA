@@ -4,10 +4,11 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="90ff3f61-2819-424a-963a-c5d3b66f2470" name="Changes" comment="History working as intended">
+    <list default="true" id="90ff3f61-2819-424a-963a-c5d3b66f2470" name="Changes" comment="Fixing intruders sharing space instead of waiting for the previous intruder to move out">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Game.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Game.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/pieces/Robot.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/pieces/Robot.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -119,7 +120,14 @@
       <option name="project" value="LOCAL" />
       <updated>1652818401116</updated>
     </task>
-    <option name="localTasksCounter" value="8" />
+    <task id="LOCAL-00008" summary="Fixing intruders sharing space instead of waiting for the previous intruder to move out">
+      <created>1652821498845</created>
+      <option name="number" value="00008" />
+      <option name="presentableId" value="LOCAL-00008" />
+      <option name="project" value="LOCAL" />
+      <updated>1652821498845</updated>
+    </task>
+    <option name="localTasksCounter" value="9" />
     <servers />
   </component>
   <component name="Vcs.Log.Tabs.Properties">
@@ -139,6 +147,7 @@
     <MESSAGE value="Adding graphic interface" />
     <MESSAGE value="My version" />
     <MESSAGE value="History working as intended" />
-    <option name="LAST_COMMIT_MESSAGE" value="History working as intended" />
+    <MESSAGE value="Fixing intruders sharing space instead of waiting for the previous intruder to move out" />
+    <option name="LAST_COMMIT_MESSAGE" value="Fixing intruders sharing space instead of waiting for the previous intruder to move out" />
   </component>
 </project>

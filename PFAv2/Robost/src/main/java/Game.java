@@ -6,10 +6,7 @@ import pieces.Piece;
 import pieces.Robot;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
-import java.util.stream.Stream;
 
 public class Game {
     //The length of the board
@@ -19,18 +16,12 @@ public class Game {
     //The board with dimensions length * width. It contains -1 if the space is empty
     //Otherwise it returns the index of the piece in the list of pieces
     public int[][] board;
-    public List<Piece> pieces = new ArrayList<>();
+    private List<Piece> pieces = new ArrayList<>();
 
-    //Parameters for the GI window
-    private final String GAME_NAME = "Robots";
-    //dimensions of the window
-    private final int SCREEN_HEIGHT = 500;
-    private final int SCREEN_WIDTH = 800;
     //dimensions of the render area
     private final int WINDOW_HEIGHT = 400;
     private final int WINDOW_WIDTH = 700;
 
-    private final int waitTime = 3000;
     public FenetreGraphique window;
 
     private final int tileHeight;
@@ -44,6 +35,11 @@ public class Game {
         this.tileWidth = (WINDOW_WIDTH - 1) / length;
         board = new int[length][width];
         if(GUI){
+            //Parameters for the GI window
+            String GAME_NAME = "Robots";
+            //dimensions of the window
+            int SCREEN_HEIGHT = 500;
+            int SCREEN_WIDTH = 800;
             window = new FenetreGraphique(0, 0, SCREEN_WIDTH, SCREEN_HEIGHT, WINDOW_WIDTH, WINDOW_HEIGHT, GAME_NAME);
         }
         initialize();
@@ -58,6 +54,16 @@ public class Game {
         }
     }
 
+    public void prepareBoard() {
+        for (int index = 0; index < pieces.size(); index++) {
+            Piece p = pieces.get(index);
+            if (p.getCoords().isInBonds(length, width)) {
+                set(p.getCoords().getX(), p.getCoords().getY(), index);
+            }
+        }
+    }
+
+
     //If the piece to be added is a robot, we add it at index 0, so Robots are always first
     public void addPiece(Piece p) {
         if (p instanceof Robot) {
@@ -65,8 +71,7 @@ public class Game {
         } else {
             pieces.add(p);
         }
-        //The move function works better if we move the robots first, and then the intruders. So we make sure the list is sorted
-        Collections.sort(pieces);
+        //The move function works better if we move the robots first, and then the intruders. So we make sure the list is sorted this way
     }
 
     //Places the given ID of a piece on the board, at the given coordinates
@@ -223,10 +228,18 @@ public class Game {
             System.out.println("There are not enough pieces");
             return false;
         }
-        //We check those two (at minima) elements are robots
+        //We check those two (at minima) elements are robots, assuming the list is sorted with robots first
         if (!(pieces.get(0) instanceof Robot & pieces.get(1) instanceof Robot)) {
             System.out.println("There are not enough robots (need at least 2)");
             return false;
+        }
+        //We check robots have an adequate list of coordinates
+        for(Piece p : pieces){
+            if(p instanceof Robot r){
+                if(! r.circuitIsValid(length, width)){
+                    return false;
+                }
+            }
         }
         return true;
     }
@@ -242,57 +255,47 @@ public class Game {
             return false;
         }
         //A boolean so that we only move currentj half the time. This way currenti will go through all nodes before catching up
-        boolean half = true;
+
         while (currenti != currentj) {
-            if (null == currenti.getNext() || !currenti.getPair().isNextTo(currenti.getNext().getPair()) || !currenti.getNext().getPair().isInBonds(length, width)) {
+            if (null == currenti.getNext()
+                    || null == currenti.getNext().getNext()
+                    || !currenti.getPair().isNextTo(currenti.getNext().getPair())
+                    || !currenti.getNext().getPair().isNextTo(currenti.getNext().getNext().getPair())
+                    || !currenti.getNext().getPair().isInBonds(length, width)
+                    || !currenti.getNext().getNext().getPair().isInBonds(length, width)) {
                 return false;
             }
-            currenti = currenti.getNext();
-            half = !half;
-            if (half) {
-                currentj = currentj.getNext();
-            }
+            currenti = currenti.getNext().getNext();
+            currentj = currentj.getNext();
         }
         return true;
     }
-
-    public void prepareBoard() {
-        //Collections.sort(pieces);
-        for (int index = 0; index < pieces.size(); index++) {
-            Piece p = pieces.get(index);
-            if (p.getCoords().isInBonds(length, width)) {
-                set(p.getCoords().getX(), p.getCoords().getY(), index);
-            }
-        }
-    }
-
 
     public String turnHistory() {
         StringBuilder res = new StringBuilder();
         res.append("[ Robots : { ");
         boolean robots = true;
-        for (Iterator<Piece> iterator = pieces.iterator(); iterator.hasNext();) {
-            Piece p = iterator.next();
-            if(p instanceof Intruder i) {
-                if(robots){
+        for (Piece p : pieces) {
+            if (p instanceof Intruder i) {
+                if (robots) {
                     robots = false;
                     res.append("} | Intruders : { ");
                 }
-                if(i.hasEscaped()){
+                if (i.hasEscaped()) {
                     res.append("(Intruder has escaped !) ");
                     //We can remove escaped intruders if we only want to see this message once when the intruder escapes
                     //iterator.remove();
-                }else if(i.gotCaught()) {
+                } else if (i.gotCaught()) {
                     res.append("(Intruder got caught !) ");
                     //Same with caught intruders
                     //iterator.remove();
-                }else if(!i.isOnBoard()) {
+                } else if (!i.isOnBoard()) {
                     res.append("(Disappeared temporarily) ");
-                }else{
+                } else {
                     Pair coords = i.getCoords();
                     res.append("(").append(coords.getX()).append(" . ").append(coords.getY()).append(") ");
                 }
-            }else{
+            } else {
                 Pair coords = p.getCoords();
                 res.append("(").append(coords.getX()).append(" . ").append(coords.getY()).append(") ");
             }
@@ -319,7 +322,6 @@ public class Game {
         }
         //Drawing the robots and intruders
         int r = Math.min(tileWidth, tileHeight) / 2;
-        int k = 0;
         for (Piece p : pieces) {
             if (p instanceof Intruder i && !i.gotCaught() && i.isOnBoard() && !i.hasEscaped()) {
                 //Drawing a black circle for intruders
@@ -335,6 +337,7 @@ public class Game {
         //Drawing of the newly created shapes
         window.flush();
         //Wait until it's time for the next frame
+        int waitTime = 3000;
         FenetreGraphique.wait(waitTime);
     }
 

@@ -1,6 +1,4 @@
 import entities.CircularArray;
-import entities.Node;
-import entities.Pair;
 import pieces.Intruder;
 import pieces.Robot;
 

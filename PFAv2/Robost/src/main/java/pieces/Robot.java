@@ -19,17 +19,18 @@ public class Robot extends Piece {
         if(!currentj.getPair().isNextTo(currenti.getPair()) || !currentj.getPair().isInBonds(length, width) || !currenti.getPair().isInBonds(length, width)){
             return false;
         }
-        //A boolean so that we only move currentj half the time. This way currenti will go through all nodes before catching up
-        boolean half = true;
-        while (currenti != currentj){
-            if(null == currenti.getNext() || !currenti.getPair().isNextTo(currenti.getNext().getPair()) || !currenti.getNext().getPair().isInBonds(length, width)){
+
+        while (currenti != currentj) {
+            if (null == currenti.getNext()
+                    || null == currenti.getNext().getNext()
+                    || !currenti.getPair().isNextTo(currenti.getNext().getPair())
+                    || !currenti.getNext().getPair().isNextTo(currenti.getNext().getNext().getPair())
+                    || !currenti.getNext().getPair().isInBonds(length, width)
+                    || !currenti.getNext().getNext().getPair().isInBonds(length, width)) {
                 return false;
             }
-            currenti = currenti.getNext();
-            half = !half;
-            if(half){
-                currentj = currentj.getNext();
-            }
+            currenti = currenti.getNext().getNext();
+            currentj = currentj.getNext();
         }
         return true;
     }
