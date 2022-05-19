@@ -1,0 +1,7 @@
+Mini-projet Robots, pour Jean-Michel HUFFLEN du module PFA
+
+Par Farah BARADI, Théophile BILLOD, Thiago MONTEIRO
+
+Open the project with IntelliJ, or move inside the project directory (the directory that contains pom.xml) and use the command :
+
+java -Dfile.encoding=UTF-8 -classpath target/classes:src/main/java/GraphicLibs Main

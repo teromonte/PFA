@@ -1,6 +1,5 @@
-import entities.CircularArray;
-import pieces.Intruder;
-import pieces.Robot;
+import entities.*;
+import pieces.*;
 
 import java.util.ArrayList;
 import java.util.stream.Stream;
